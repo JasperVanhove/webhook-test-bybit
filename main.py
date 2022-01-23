@@ -37,18 +37,15 @@ def on_message(ws, message):
 
 
 def _restart_websocket():
-    global ws
-    global interval
-
-    ws = websocket.WebSocketApp(socket, on_open=on_open, on_message=on_message, on_close=on_close)
-    ws.run_forever(ping_interval=interval, ping_payload=_get_ping_payload())
+    wsn = websocket.WebSocketApp(socket, on_open=on_open, on_message=on_message, on_close=on_close)
+    wsn.run_forever(ping_interval=interval, ping_payload=_get_ping_payload())
 
 
 def on_close(ws, test1, test2):
     print(f'End: {datetime.now()}')
-    print(test1 + '\n---------------\n' + test2)
     print('Restarting Websocket!')
     _restart_websocket()
+    print(test1 + '\n---------------\n' + test2)
 
 
 ws = websocket.WebSocketApp(socket, on_open=on_open, on_message=on_message, on_close=on_close)
